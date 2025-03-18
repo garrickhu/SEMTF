@@ -829,10 +829,10 @@ if __name__=='__main__':
     time1 = time.perf_counter()
     print('Our Numerical Z-tilt + G-tilt SEMTF together: ', time1-start)
     
-
-    for j in np.linspace(0,0.995,nop): ##when j == 1 there will be error, when nop is too big there will be error too.
+    wangrho = np.linspace(0,0.995,nop)
+    for j in wangrho: ##when j == 1 there will be error, when nop is too big there will be error too.
         wang.append(finalinte(j, D, r0))
-    wangfrontpartz = frontz(qq, D, r0, epsi)
+    wangfrontpartz = frontz(wangrho, D, r0, epsi)
     wangmtf = (4/np.pi/D**2)*wangfrontpartz*wang
     time2 = time.perf_counter()
     print('Wang SEMTF: ', time2-time1)
