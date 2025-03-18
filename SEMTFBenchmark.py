@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-
+A python code to compare computation speed between different SEMTF models
+Wang1977 : Optical resolution through a turbulent medium with adaptive phase compensations
+Charnotskii1993 : Anisoplanatic short-exposure imaging in turbulence
+Tofsted2011 : Reanalysis of turbulence effects on short-exposure passive imaging
+Dai2007: Zernike annular polynomials and atmospheric turbulence
 """
 
 import numpy as np
@@ -594,7 +598,7 @@ def Wangstructuralfunction(r,theta,rho,D,r0):
 
 
 #---------Tofsted2014 SEMTF---------------------------------------------------
-
+#Extended high-angular-frequency analysis of turbulence effects on short-exposure imaging
 def PP(n, z):
     if n == 0:
         return 1
@@ -800,8 +804,8 @@ if __name__=='__main__':
     r0=0.1 #seeing
     X=D/r0 # Tofsted X argument
     
-    nop = 96
-    epsi=0.0
+    nop = 96 #number of frequency point 
+    epsi=0.0 #obstruction ratio
     qq = np.linspace(0,D,nop) #rho from 0 to D
     q = np.linspace(0,1,nop) #Normalized frequency from 0 to 1
     
@@ -826,7 +830,7 @@ if __name__=='__main__':
     print('Our Numerical Z-tilt + G-tilt SEMTF together: ', time1-start)
     
 
-    for j in np.linspace(0,0.995,nop): ##when j == 1 there will be error
+    for j in np.linspace(0,0.995,nop): ##when j == 1 there will be error, when nop is too big there will be error too.
         wang.append(finalinte(j, D, r0))
     wangfrontpartz = frontz(qq, D, r0, epsi)
     wangmtf = (4/np.pi/D**2)*wangfrontpartz*wang
@@ -838,7 +842,7 @@ if __name__=='__main__':
     #------------Tofsted2011------------------------
     Q=16
     vv = VQX(Q,D,r0) 
-    semtftofsted = telescopetf * np.exp(-3.44*(D/r0)**(5/3) * (q**(5/3) - vv*q**2)) #Tofsted的qq是从0到1，不是rho哦，rho是从0到D
+    semtftofsted = telescopetf * np.exp(-3.44*(D/r0)**(5/3) * (q**(5/3) - vv*q**2)) 
     #-------------------------------------------------
     time3 = time.perf_counter()
     print('Tofsted SEMTF: ',time3-time2)
