@@ -862,7 +862,7 @@ if __name__=='__main__':
     
     Charnotskii = []
     for kk in q:
-        Charnotskii.append(np.exp(-0.5*Dcharnotskii(jj, D, r0)))
+        Charnotskii.append(np.exp(-0.5*Dcharnotskii(kk, D, r0)))
     Charnotskii = telescopetf * np.array(Charnotskii)
     time5 = time.perf_counter()
     print('Charnotskii SEMTF: ', time5-time4)
@@ -877,7 +877,7 @@ if __name__=='__main__':
     ax.plot(qq/D,semtfgt,linestyle=(0, (3, 1, 1, 1, 1, 1)),label='Numerical G-tilt')
     ax.plot(q,avsedai,linestyle = (0, (5, 1)), label='Dai')
     ax.plot(q,semtftofsted,linestyle=(0, (3, 5, 1, 5)),label='Tofsted')
-    ax.plot(qq,wangmtf,'x',markersize=3,label='wang')
+    ax.plot(wangrho,wangmtf,'x',markersize=3,label='wang')
     ax.plot(q,Charnotskii, label='Charnotskii')
     ax.legend()
     ax.set_title(r'$r_0 = $ '+ str(round(r0*100))+' cm, '+r'ϵ = '+str(round(epsi,2)))
