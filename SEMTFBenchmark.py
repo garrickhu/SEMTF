@@ -574,12 +574,17 @@ def innerinte(r,theta,rho,D,r0):
 
 def finalinte(rho,D,r0):
     #print('rho',rho)
-    def lthetaq(theta):
-        return(0.5*(np.sqrt(D**2-(rho*np.sin(theta))**2)-rho*np.cos(theta)))
-    
-    res = dblquad(innerinte, 0, np.pi/2, 0, lthetaq, args=(rho,D,r0))
-    
-    res0 = 4*res[0] #扩展到四个象限
+    if 0 < rho <D:
+        def lthetaq(theta):
+            return(0.5*(np.sqrt(D**2-(rho*np.sin(theta))**2)-rho*np.cos(theta)))
+        
+        res = dblquad(innerinte, 0, np.pi/2, 0, lthetaq, args=(rho,D,r0))
+        
+        res0 = 4*res[0] 
+    elif rho == 0:
+        res0 = 1
+    elif rho == D:
+        res0 = 0 
     #print('result:',res0)
     return(res0)
 
@@ -829,8 +834,8 @@ if __name__=='__main__':
     time1 = time.perf_counter()
     print('Our Numerical Z-tilt + G-tilt SEMTF together: ', time1-start)
     
-    wangrho = np.linspace(0,0.995,nop)
-    for j in wangrho: ##when j == 1 there will be error, when nop is too big there will be error too.
+    wangrho = np.linspace(0,D,nop)
+    for j in wangrho: 
         wang.append(finalinte(j, D, r0))
     wangfrontpartz = frontz(wangrho, D, r0, epsi)
     wangmtf = (4/np.pi/D**2)*wangfrontpartz*wang
